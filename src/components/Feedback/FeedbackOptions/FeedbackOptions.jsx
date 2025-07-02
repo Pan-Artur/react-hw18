@@ -1,8 +1,10 @@
-export const FeedbackOptions = ({
-  onLeaveGood,
-  onLeaveNeutral,
-  onLeaveBad,
-}) => {
+import { useContext } from "react";
+
+import { FeedbackContext } from "../../../context/Feedback/FeedbackContext";
+
+export const FeedbackOptions = () => {
+  const { onLeaveGood, onLeaveNeutral, onLeaveBad } = useContext(FeedbackContext);
+
   return (
     <ul className="feedback-managment">
       <li key="good-option">

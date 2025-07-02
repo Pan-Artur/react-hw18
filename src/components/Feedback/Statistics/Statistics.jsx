@@ -1,4 +1,10 @@
-export const Statistics = ({ good, neutral, bad, total, positivePercentage }) => {
+import { useContext } from "react";
+
+import { FeedbackContext } from "../../../context/Feedback/FeedbackContext";
+
+export const Statistics = () => {
+    const { good, neutral, bad, total, positivePercentage } = useContext(FeedbackContext);
+
     return (
         <div className="feedback-result">
             <h2>Statistics</h2>

@@ -1,21 +1,25 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useContext } from "react";
+
+import { PhonebookContext } from "../../../context/Phonebook/PhonebookContext";
 
 import { FaPhoneAlt } from "react-icons/fa";
 
 import { StyledPhoneList } from "./StyledPhoneList";
 
-export const PhoneList = ({ contacts, onDelete, value, onChange }) => {
+export const PhoneList = () => {
+  const { filteredContacts, value, deleteContact, handleFilterChange } = useContext(PhonebookContext);
+
   const prevContactsRef = useRef();
 
   useEffect(() => {
-    if (prevContactsRef.current !== contacts) {
-      localStorage.setItem("contacts", JSON.stringify(contacts));
+    if (prevContactsRef.current !== filteredContacts) {
+      localStorage.setItem("contacts", JSON.stringify(filteredContacts));
     }
 
-    prevContactsRef.current = contacts;
-  }, [contacts]);
+    prevContactsRef.current = filteredContacts;
+  }, [filteredContacts]);
 
-  const hasContacts = contacts.length > 0;
+  const hasContacts = filteredContacts.length > 0;
 
   return (
     <StyledPhoneList>
@@ -26,7 +30,7 @@ export const PhoneList = ({ contacts, onDelete, value, onChange }) => {
           type="text"
           name="filter"
           value={value}
-          onChange={onChange}
+          onChange={handleFilterChange}
         />
       </div>
 
@@ -34,7 +38,7 @@ export const PhoneList = ({ contacts, onDelete, value, onChange }) => {
 
       {hasContacts && (
         <ul>
-          {contacts.map((contact) => (
+          {filteredContacts.map((contact) => (
             <li key={contact.id}>
               <FaPhoneAlt />
               <p>
@@ -42,7 +46,7 @@ export const PhoneList = ({ contacts, onDelete, value, onChange }) => {
               </p>
               <button
                 type="button"
-                onClick={() => onDelete(contact.id)}
+                onClick={() => deleteContact(contact.id)}
               >
                 Delete
               </button>

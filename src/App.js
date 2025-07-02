@@ -1,14 +1,21 @@
-import { Feedback } from './components/Feedback/Feedback';
-import { Phonebook } from './components/Phonebook/Phonebook';
+import { FeedbackProvider } from "./context/Feedback/FeedbackContext";
+import { PhonebookProvider } from "./context/Phonebook/PhonebookContext";
 
-import './App.css';
+import { Feedback } from "./components/Feedback/Feedback";
+import { Phonebook } from "./components/Phonebook/Phonebook";
+
+import "./App.css";
 
 function App() {
   return (
-    <div className="App">
-      <Feedback />
-      <Phonebook />
-    </div>
+    <>
+      <FeedbackProvider>
+        <Feedback />
+      </FeedbackProvider>
+      <PhonebookProvider>
+        <Phonebook />
+      </PhonebookProvider>
+    </>
   );
 }
 

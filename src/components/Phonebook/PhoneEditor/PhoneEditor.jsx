@@ -1,14 +1,18 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useContext } from "react";
+
+import { PhonebookContext } from "../../../context/Phonebook/PhonebookContext";
 
 import { StyledPhoneEditor } from "./StyledPhoneEditor";
 
-export const PhoneEditor = ({ onChange, name, number, onAddContact }) => {
+export const PhoneEditor = () => {
+  const { name, number, addContact, handleInputChange } = useContext(PhonebookContext);
+
   const timerRef = useRef(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    onChange(name, value);
+    handleInputChange(name, value);
 
     if (name === "number") {
       if (timerRef.current) {
@@ -39,7 +43,7 @@ export const PhoneEditor = ({ onChange, name, number, onAddContact }) => {
           .join("");
 
         if (filteredValue !== value) {
-          onChange(name, filteredValue);
+          handleInputChange(name, filteredValue);
         }
       }, 300);
     }
@@ -83,18 +87,19 @@ export const PhoneEditor = ({ onChange, name, number, onAddContact }) => {
     return true;
   };
 
-  const addContact = (e) => {
+  const handleAddContact = (e) => {
     e.preventDefault();
+    
     if (!validateInput(name, "name") || !validateInput(number, "number")) {
       return;
     }
 
-    onAddContact(name.trim(), number.trim());
+    addContact(name.trim(), number.trim());
   };
 
   return (
     <StyledPhoneEditor>
-      <form onSubmit={addContact}>
+      <form onSubmit={handleAddContact}>
         <div>
           <h2>Name</h2>
           <input

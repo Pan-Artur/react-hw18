@@ -23,6 +23,8 @@ export const StyledPhoneEditor = styled.div`
     color: rgb(43, 66, 90);
     font-size: 18px;
     margin-bottom: 8px;
+    display: flex;
+    justify-content: center;
   }
 
   input {
