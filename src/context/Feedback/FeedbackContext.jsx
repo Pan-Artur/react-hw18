@@ -1,4 +1,4 @@
-import { createContext, useState, useRef, useEffect } from "react";
+import { createContext, useState } from "react";
 
 export const FeedbackContext = createContext(null);
 
@@ -7,25 +7,15 @@ export const FeedbackProvider = ({ children }) => {
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
 
-  const totalRef = useRef(0);
-  const positivePercentageRef = useRef(0);
-
-  useEffect(() => {
-    totalRef.current = good + neutral + bad;
-    positivePercentageRef.current = totalRef.current
-      ? Math.round((good / totalRef.current) * 100)
-      : 0;
-  }, [good, neutral, bad]);
+  const total = good + neutral + bad;
+  const positivePercentage = total ? Math.round((good / total) * 100) : 0;
 
   const title = "Please leave feedback";
   const message = "There is no feedback";
 
-  const onLeaveGood = (() => setGood((prevState) => prevState + 1));
-  const onLeaveNeutral = (() => setNeutral((prevState) => prevState + 1));
-  const onLeaveBad = (() => setBad((prevState) => prevState + 1));
-
-  const total = totalRef.current;
-  const positivePercentage = positivePercentageRef.current;
+  const onLeaveGood = () => setGood((prevState) => prevState + 1);
+  const onLeaveNeutral = () => setNeutral((prevState) => prevState + 1);
+  const onLeaveBad = () => setBad((prevState) => prevState + 1);
 
   return (
     <FeedbackContext.Provider
@@ -42,7 +32,7 @@ export const FeedbackProvider = ({ children }) => {
         message,
       }}
     >
-        {children}
+      {children}
     </FeedbackContext.Provider>
   );
 };
